@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self';script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="img-src 'self';script-src 'self'">
+  <title>Registro</title>
+  <!-- CSS-->
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/styles.css" />
+   <!-- Script -->
+   <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <!-- Start your project here-->
+  <div class="container container--miestilo">
+    <div class="search-container"  >
+      <div class="search-container__box">
+        <img class="search-container__image2" src="./img/problem_solving1.svg">
+        <div  id="extableciendoconexion" class="search-container__contenido">
+          <h5>Cargando </h5>
+           <div>
+            <img src="./img/loader2.svg">
+           </div>
+          </div>
+        </div>
+        <div id="intentandoconectar" class="search-container__contenido1">
+          <h5>Intentando conectar, por favor espere</h5>
+        <div>
+          <img src="./img/loader2.svg">
+        </div>
+        </div>
+        <div id="cargaSinExito" class="search-container__contenido1">
+                <h5>La conexión no tubo exito, por favor intentalo de nuevo</h5>
+        </div>
+        <div id="sinInternet" class="search-container__contenido1">
+              <h5>Internet desconectado, por favor comprueba tus redes e intentalo de nuevo</h5>
+        </div>
+        <div id="botonActualizardiv"  class="search-container__contenido1" >
+          <div type="button" id="botonActualizar" class="btn btn-primary btn--miclass">Actualizar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./renderer.js"></script>
+</body>
+</html>

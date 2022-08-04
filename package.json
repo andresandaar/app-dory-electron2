@@ -1,0 +1,29 @@
+{
+  "name": "app-dory-web",
+  "productName": "app-dory-web",
+  "version": "1.0.0",
+  "description": "Aplicación dory web",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ./src/main.js",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . app-dory-web --overwrite --asar=true --platform=win32 --arch=ia32 --icon=src/assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"app-dory-web\"",
+    "package-linux": "electron-packager . app-dory-web --overwrite --asar=true --platform=linux --arch=x64 --icon=src/assets/icons/png/1024x1024.png --prune=true --out=release-builds"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "Dory",
+    "start"
+  ],
+  "author": "Andrés Davila Arroyo",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^19.0.9",
+    "electron-packager": "^15.5.1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.0",
+    "path": "^0.12.7"
+  }
+}
