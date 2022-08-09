@@ -6,6 +6,8 @@ const {
   net,
   BrowserView,
 } = require("electron");
+const contextMenu = require('electron-context-menu');
+
 const path = require("path");
 var destruirVentanaView =false
 function crearVentanaPrincipal() {
@@ -16,33 +18,69 @@ function crearVentanaPrincipal() {
     height: 768,
     minWidth: 600,
     minHeight: 320,
-   /*  maxWidth: 2048,
-    maxHeight: 1024, */
     show: false,
+    frame:false,
     webPreferences: {
-      preload: path.join(__dirname, "./preload.js"),
       contextIsolation: false,
       nodeIntegration: true,
+      spellcheck: true
     },
   });
-  // La venta se entra en modo maximize (amplia)
   ventanaPrincipal.maximize();
-  ipcMain.on("activateButtonAngular", (event) => {
-    event.reply("activateButtonElectron", "BotonActivado");
+  ventanaPrincipal.setMenu(null);
+  contextMenu(
+  {
+    labels: {
+        cut: 'Cortar',
+        copy: 'Copiar',
+        paste: 'Pegar',
+    },
+    showInspectElement:false,
+    showCopyImage:false,
+    showSearchWithGoogle:false,
+    showLearnSpelling:false,
+    prepend: (defaultActions, parameters, browserWindow) => [
+		{
+			label: 'Buscar en Google',
+			visible: parameters.selectionText.trim().length > 0,
+			click: () => {
+				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(parameters.selectionText)}`);
+			}
+		}
+	]
+});
+  ventanaPrincipal.webContents.openDevTools();
+  ipcMain.on("activeCustomTitleBarElectronInAngular", (event) => {
+    event.reply("activateCustomTitleBarnElectron", "CustomTitleBarActivated");
   });
-  // ventanaPrincipal.setSimpleFullScreen(true);
-  //-------------------------------------------
-
+  ipcMain.on("min-button", (event) => {
+    var window = BrowserWindow.getFocusedWindow();
+    window.minimize();
+  });
+  ipcMain.on("max-button", (event) => {
+     var window = BrowserWindow.getFocusedWindow();
+    if(window.isMaximized()){
+       window.unmaximize();
+      }else{
+       window.maximize();
+     }
+  });
+  ipcMain.on("close-button", (event) => {
+    var window = BrowserWindow.getFocusedWindow();
+    window.close();
+    
+  });
 function ViewCheckInternet() { 
 const view = new BrowserView({
+      frame:true,
       webPreferences: {
         preload: path.join(__dirname, "./checkInternet/preload.js")
       },
     });
     ventanaPrincipal.setBrowserView(view);
     let tamaños = ventanaPrincipal.getContentSize();
-    view.setAutoResize({ width: true, height: true });
-    view.setBounds({ x: 0, y: 0, width: tamaños[0], height: tamaños[1] });
+    view.setAutoResize({ width: true, height: true ,horizontal:true,vertical:true});
+    view.setBounds({ x: 0, y: 0, width: tamaños[0]+14, height: tamaños[1]+18 });
     view.webContents.loadFile(
       path.join(__dirname, "./checkInternet/checkInternet.html")
     );
@@ -53,15 +91,15 @@ const view = new BrowserView({
       ventanaPrincipal.webContents.on("did-finish-load",()=>{
         if (destruirVentanaView) {
             destruirVentanaView=false
-            view.webContents.destroy();
+            setTimeout(() => {
+              view.webContents.destroy()
+              ventanaPrincipal.setBrowserView(null);
+            }, 5000);
         }
       })
-    /*   ventanaPrincipal.webContents.reload();
-      ventanaPrincipal.webContents.on("did-finish-load",()=>{
-      view.webContents.destroy();
-      }) */
     });
 }
+
   ventanaPrincipal.webContents.on(
     "did-fail-load",
     (event, errorCode, errorDescription, validatedURL, isMainFrame) => {
@@ -79,8 +117,7 @@ const view = new BrowserView({
   if (net.online) {
     ViewCheckInternet() 
   }
-  ventanaPrincipal.setMenu(null);
- /*  ventanaPrincipal.webContents.openDevTools(); */
+ 
   ventanaPrincipal.webContents.setWindowOpenHandler(({ url }) => {
     if (url.includes("https://accounts.google.com")) {
       console.log(url);
@@ -100,24 +137,13 @@ const view = new BrowserView({
     }
     return { action: "deny" };
   });
-   ventanaPrincipal.webContents.on(
-    "did-navigate-in-page",
-    (event, url, isMainFrame, frameProcessId, frameRoutingId) => {
-    /*       ventanaPrincipal.webContents.send(
-        "principal",
-        "intentando de nuevo la conexion"
-      ); */
-  
-    })
-
-   ventanaPrincipal.loadURL("https://dory-web-app-tests.herokuapp.com");
-  // ventanaPrincipal.loadFile(path.join(__dirname, "./index.html"));
+  /*  ventanaPrincipal.loadURL("https://dory-web-app-tests.herokuapp.com"); */
+ /*  ventanaPrincipal.loadFile(path.join(__dirname, "./index.html")); */
   /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-internet/"); */
-/*   ventanaPrincipal.loadURL("http://localhost:4200/"); */
+  ventanaPrincipal.loadURL("http://localhost:4200/");
   /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-ipcmain-angular-electron/"); */
   
 }
-  
 //Evento que muestra la IU
 app.whenReady().then(() => {
   crearVentanaPrincipal();

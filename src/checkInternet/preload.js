@@ -1,5 +1,5 @@
 
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer} = require("electron");
 const http2 = require("http2");
 contextBridge.exposeInMainWorld("electron", {
   checkInternet: function () {
@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld("electron", {
     var error =false
       let Extableciendoconexion = document.getElementById("extableciendoconexion");
       let cargaSinExito = document.getElementById("cargaSinExito");
+      let titlebarclass = document.getElementsByClassName("titlebarclass");
       let intentandoconectar = document.getElementById("intentandoconectar");
       let sinInternet = document.getElementById("sinInternet");
       let botonActualizar = document.getElementById("botonActualizardiv");
@@ -49,7 +50,6 @@ contextBridge.exposeInMainWorld("electron", {
                sinInternet.style.display = "none";
                botonActualizar.style.display = "none";
                ipcRenderer.send("destruirVentanaView");
-          
            });
            client.on("error", () => {
              client.destroy();
@@ -72,5 +72,28 @@ contextBridge.exposeInMainWorld("electron", {
        checkInternet();
      }
     });
+    // When document has loaded, initialise
+document.onreadystatechange = (event) => {
+    if (document.readyState == "complete") {
+        handleWindowControls();
+    }
+};
+function handleWindowControls() {
+    document.getElementById('min-button').addEventListener("click", event => {
+       ipcRenderer.send("min-button");
+       ipcRenderer.removeAllListeners("min-button")
+    });
+    document.getElementById('max-button').addEventListener("click", event => {
+       ipcRenderer.send("max-button");
+       ipcRenderer.removeAllListeners("max-button")
+    });
+    document.getElementById('close-button').addEventListener("click", event => {
+      ipcRenderer.send("close-button");
+      ipcRenderer.removeAllListeners("close-button")
+    });  
+}
   },
 });
+
+
+
