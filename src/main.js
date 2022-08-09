@@ -133,7 +133,6 @@ const view = new BrowserView({
       return win;
     } else {
       shell.openExternal(url);
-      console.log(url);
     }
     return { action: "deny" };
   });

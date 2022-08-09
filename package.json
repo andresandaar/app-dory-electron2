@@ -25,7 +25,6 @@
   "dependencies": {
     "bootstrap": "^5.2.0",
     "electron-context-menu": "^3.3.0",
-    "electron-reload": "^2.0.0-alpha.1",
     "path": "^0.12.7"
   }
 }
