@@ -5,11 +5,12 @@ const {
   shell,
   net,
   BrowserView,
+  globalShortcut
 } = require("electron");
 const contextMenu = require('electron-context-menu');
-
 const path = require("path");
 var destruirVentanaView =false
+let ventanaMinimize =false
 function crearVentanaPrincipal() {
   let ventanaPrincipal = new BrowserWindow({
     icon: path.join(__dirname, "./assets/icons/win/icon.ico"),
@@ -49,7 +50,49 @@ function crearVentanaPrincipal() {
 		}
 	]
 });
-  ventanaPrincipal.webContents.openDevTools();
+function controlGoBackAndGoForward() {
+  /* Teclas de Acceso Rapido avasar y retroceder  y control de botones*/
+   globalShortcut.register('Alt+Left', () => {
+  if (ventanaPrincipal.webContents.canGoBack() && !ventanaMinimize ) {
+    /* Retrocede una pagina */
+    ventanaPrincipal.webContents.goBack()
+  }
+    })
+   globalShortcut.register('Alt+Right', () => {
+     if (ventanaPrincipal.webContents.canGoForward() && !ventanaMinimize) {
+      /*Avanza una pagina */
+       ventanaPrincipal.webContents.goForward()
+     }
+    })
+    /* ventanaPrincipal.webContents.openDevTools(); */
+    ventanaPrincipal.on("blur",()=>{
+      /* Evento se activa cuando la ventana pierde el focus */
+     ventanaMinimize=true
+    })
+    ventanaPrincipal.on("focus",()=>{
+      /* Evento se activa cuando la ventana gana el focus */
+     ventanaMinimize=false
+    })
+    // Realizamos una navegacion de cualquier cuadro
+    ventanaPrincipal.webContents.on("did-navigate-in-page",()=>{
+      let canGoForward= ventanaPrincipal.webContents.canGoForward() 
+      /* Verifica si se puede avanzar una pagina:Boolean, eviamos la respuesta
+      a la pagina*/
+        ventanaPrincipal.webContents.send(
+          "canGoForward",
+          canGoForward
+        );
+        /* Verifica si se puede retroceder en la pagina:Boolean, eviamos la respuesta
+      a la pagina*/
+      let canGoBack= ventanaPrincipal.webContents.canGoBack()
+       ventanaPrincipal.webContents.send(
+          "canGoBack",
+          canGoBack
+        );
+    })
+    /* Fin */
+}
+function controlMinMaxCloseAndCustomTitleBar () {
   ipcMain.on("activeCustomTitleBarElectronInAngular", (event) => {
     event.reply("activateCustomTitleBarnElectron", "CustomTitleBarActivated");
   });
@@ -70,6 +113,7 @@ function crearVentanaPrincipal() {
     window.close();
     
   });
+}
 function ViewCheckInternet() { 
 const view = new BrowserView({
       frame:true,
@@ -99,6 +143,8 @@ const view = new BrowserView({
       })
     });
 }
+controlGoBackAndGoForward()
+controlMinMaxCloseAndCustomTitleBar()
 
   ventanaPrincipal.webContents.on(
     "did-fail-load",
@@ -113,11 +159,10 @@ const view = new BrowserView({
       }
     }
   );
-
   if (net.online) {
     ViewCheckInternet() 
   }
- 
+  /* Me permite abrir una url en mi navegador predeterminado */
   ventanaPrincipal.webContents.setWindowOpenHandler(({ url }) => {
     if (url.includes("https://accounts.google.com")) {
       console.log(url);
