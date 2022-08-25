@@ -17,7 +17,7 @@ function crearVentanaPrincipal() {
     title: "Dory",
     width: 800,
     height: 768,
-    minWidth: 600,
+    minWidth: 700,
     minHeight: 320,
     show: false,
     frame:false,
@@ -111,7 +111,6 @@ function controlMinMaxCloseAndCustomTitleBar () {
   ipcMain.on("close-button", (event) => {
     var window = BrowserWindow.getFocusedWindow();
     window.close();
-    
   });
 }
 function ViewCheckInternet() { 
@@ -181,7 +180,8 @@ controlMinMaxCloseAndCustomTitleBar()
     }
     return { action: "deny" };
   });
-  /*  ventanaPrincipal.loadURL("https://dory-web-app-tests.herokuapp.com"); */
+  ventanaPrincipal.webContents.openDevTools() 
+/*    ventanaPrincipal.loadURL("https://dory-web-app-tests.herokuapp.com"); */
  /*  ventanaPrincipal.loadFile(path.join(__dirname, "./index.html")); */
   /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-internet/"); */
   ventanaPrincipal.loadURL("http://localhost:4200/");
