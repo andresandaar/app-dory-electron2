@@ -80,14 +80,14 @@ function controlGoBackAndGoForward() {
       a la pagina*/
         ventanaPrincipal.webContents.send(
           "canGoForward",
-          canGoForward
+           canGoForward
         );
         /* Verifica si se puede retroceder en la pagina:Boolean, eviamos la respuesta
       a la pagina*/
       let canGoBack= ventanaPrincipal.webContents.canGoBack()
        ventanaPrincipal.webContents.send(
           "canGoBack",
-          canGoBack
+           canGoBack
         );
     })
     /* Fin */
@@ -164,7 +164,6 @@ controlMinMaxCloseAndCustomTitleBar()
   /* Me permite abrir una url en mi navegador predeterminado */
   ventanaPrincipal.webContents.setWindowOpenHandler(({ url }) => {
     if (url.includes("https://accounts.google.com")) {
-      console.log(url);
       let win = {
         action: "allow",
         overrideBrowserWindowOptions: {
@@ -181,10 +180,10 @@ controlMinMaxCloseAndCustomTitleBar()
     return { action: "deny" };
   });
   ventanaPrincipal.webContents.openDevTools() 
-/*    ventanaPrincipal.loadURL("https://dory-web-app-tests.herokuapp.com"); */
+   ventanaPrincipal.loadURL("https://dory-web-app-pruebas.herokuapp.com");
  /*  ventanaPrincipal.loadFile(path.join(__dirname, "./index.html")); */
   /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-internet/"); */
-  ventanaPrincipal.loadURL("http://localhost:4200/");
+/* ventanaPrincipal.loadURL("http://localhost:4200/"); */
   /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-ipcmain-angular-electron/"); */
   
 }
@@ -197,7 +196,6 @@ app.whenReady().then(() => {
     }
   });
 });
-
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
