@@ -135,12 +135,6 @@ body {
   width: 24px;
   height: 24px;
 }
-/* cuando la pantalla es <=800px */
-/* @media screen and (max-width: 800px) {
-  #titlebar {
-    width: 100%;
-  }
-} */
 @media screen and (min-width: 1500px) {
   #titlebar {
     width: calc(100% - 14px);

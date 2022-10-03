@@ -17,7 +17,7 @@ function crearVentanaPrincipal() {
     title: "Dory",
     width: 800,
     height: 768,
-    minWidth: 700,
+    minWidth: 750,
     minHeight: 320,
     show: false,
     frame:false,
@@ -179,13 +179,8 @@ controlMinMaxCloseAndCustomTitleBar()
     }
     return { action: "deny" };
   });
-  ventanaPrincipal.webContents.openDevTools() 
+/*   ventanaPrincipal.webContents.openDevTools()  */
    ventanaPrincipal.loadURL("https://dory-web-app-pruebas.herokuapp.com");
- /*  ventanaPrincipal.loadFile(path.join(__dirname, "./index.html")); */
-  /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-internet/"); */
-/* ventanaPrincipal.loadURL("http://localhost:4200/"); */
-  /* ventanaPrincipal.loadURL("https://andresandaar.github.io/prueba-ipcmain-angular-electron/"); */
-  
 }
 //Evento que muestra la IU
 app.whenReady().then(() => {
