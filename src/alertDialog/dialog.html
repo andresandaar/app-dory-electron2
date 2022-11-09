@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/dialog.css">
+</head>
+
+<body>
+    <div id="header"></div>
+    <div class="prompt-content">
+        <div class="image-container">
+            <img id="prompt-img">
+        </div>
+        <div class="form-control-input-container">
+            <div id="label" class="form-control-label"></div>
+            <input type="text" id="input" class="form-control-text" onkeypress="enter(event)" required>
+        </div>
+    </div>
+    <div class="preferences-form-actions">
+        <button type="submit" class="btn-rounded btn--blue" id="min-button-ok">Insertar</button>
+        <button type="submit" class="btn-rounded btn--grey" id="min-button-cancel">Cancelar</button>
+    </div>
+    <script src="./renderer.js"></script>
+</body>
+
+</html>

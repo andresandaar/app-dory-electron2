@@ -5,10 +5,12 @@ const {
   shell,
   net,
   BrowserView,
-  globalShortcut
+  globalShortcut,
+  dialog
 } = require("electron");
 const contextMenu = require('electron-context-menu');
 const path = require("path");
+const userPrompt = require('./alertDialog/index');
 var destruirVentanaView =false
 let ventanaMinimize =false
 function crearVentanaPrincipal() {
@@ -113,6 +115,19 @@ function controlMinMaxCloseAndCustomTitleBar () {
     window.close();
   });
 }
+function dialogoventan () {
+  ipcMain.on("dialog", (event,arg) => {
+    const urlValue= arg
+const icon = path.join(__dirname, "./assets/icons/win/icon.ico");
+userPrompt('Insertar la URL', 'https://www.google.com', icon,urlValue)
+  .then(input => {
+    event.reply("onDialog", input);
+  })
+  .catch(err => {
+    /* console.log(err); */
+  });   
+  });
+}
 function ViewCheckInternet() { 
 const view = new BrowserView({
       frame:true,
@@ -144,6 +159,7 @@ const view = new BrowserView({
 }
 controlGoBackAndGoForward()
 controlMinMaxCloseAndCustomTitleBar()
+dialogoventan()
 
   ventanaPrincipal.webContents.on(
     "did-fail-load",
@@ -179,8 +195,9 @@ controlMinMaxCloseAndCustomTitleBar()
     }
     return { action: "deny" };
   });
-/*   ventanaPrincipal.webContents.openDevTools()  */
+  ventanaPrincipal.webContents.openDevTools() 
    ventanaPrincipal.loadURL("https://dory-web-app-pruebas.herokuapp.com");
+   /* ventanaPrincipal.loadURL("http://localhost:4200/dashboard/perfil"); */
 }
 //Evento que muestra la IU
 app.whenReady().then(() => {
