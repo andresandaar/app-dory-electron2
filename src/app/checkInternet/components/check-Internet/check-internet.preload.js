@@ -1,4 +1,3 @@
-
 const { contextBridge, ipcRenderer} = require("electron");
 const http2 = require("http2");
 contextBridge.exposeInMainWorld("electron", {
@@ -94,6 +93,4 @@ function handleWindowControls() {
 }
   },
 });
-
-
 

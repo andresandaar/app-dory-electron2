@@ -10,7 +10,7 @@ const path = require('path');
 function InputPrompt (_label = 'Insertar la URL', _placeholder = 'https://www.google.com', _icon = '',_urlValue='', _masked =false,) {
   return new Promise((resolve, reject) => {
     if (_icon == null) {
-      _icon = path.join(__dirname, "./img/icon.png");
+      _icon = path.join(__dirname, "../../../assets/img/icon-dialogo-alert.png");
     }
     let promptWindow = new BrowserWindow({
       width: 450,
@@ -24,13 +24,13 @@ function InputPrompt (_label = 'Insertar la URL', _placeholder = 'https://www.go
       parent: BrowserWindow.getFocusedWindow(),
       modal: true,
        webPreferences: {
-        preload: path.join(__dirname, "./preload.js")
+        preload: path.join(__dirname, "./alert-dialogo.preload.js")
       },
     });
 
     promptWindow.setMenu(null);
     promptWindow.loadFile(
-      path.join(__dirname, "./dialog.html")
+      path.join(__dirname, "./alert-dialogo.component.html")
     );
 
     let options = {

@@ -1,3 +1,2 @@
-
 /* Este script se ejecuta con el html */
-window.electron.alertModal();
+window.electron.checkInternet();
