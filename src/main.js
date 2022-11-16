@@ -39,7 +39,7 @@ const controlErrorx = new controlError()
 controlErrorx.controlError(ventanaPrincipal)
   /* ventanaPrincipal.webContents.openDevTools()  */
    ventanaPrincipal.loadURL("https://dory-web-app-pruebas.herokuapp.com");
-   /* ventanaPrincipal.loadURL("http://localhost:4200/dashboard/perfil"); */
+ /*   ventanaPrincipal.loadURL("http://localhost:4200/"); */
 }
 //Evento que muestra la IU
 app.whenReady().then(() => {
